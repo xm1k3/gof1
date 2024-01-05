@@ -12,7 +12,7 @@ type F1Service struct {
 	Repository repositories.F1Repository
 }
 
-func (f F1Service) ImportDrivers(record []string) error {
+func (f F1Service) ImportDriversFromCsv(record []string) error {
 	id, err := strconv.Atoi(record[0])
 	if err != nil {
 		return err
@@ -35,11 +35,11 @@ func (f F1Service) ImportDrivers(record []string) error {
 		URL:         record[8],
 	}
 
-	f.Repository.ImportDrivers(driver)
+	f.Repository.ImportDriversFromCsv(driver)
 	return nil
 }
 
-func (f F1Service) ImportConstructors(record []string) error {
+func (f F1Service) ImportConstructorsFromCsv(record []string) error {
 	constructorID, err := strconv.Atoi(record[0])
 	if err != nil {
 		return err
@@ -53,11 +53,11 @@ func (f F1Service) ImportConstructors(record []string) error {
 		URL:            record[4],
 	}
 
-	f.Repository.ImportConstructors(constructor)
+	f.Repository.ImportConstructorsFromCsv(constructor)
 	return nil
 }
 
-func (f F1Service) ImportCircuits(record []string) error {
+func (f F1Service) ImportCircuitsFromCsv(record []string) error {
 	circuitID, err := strconv.Atoi(record[0])
 	if err != nil {
 		return err
@@ -72,11 +72,11 @@ func (f F1Service) ImportCircuits(record []string) error {
 		URL:        record[5],
 	}
 
-	f.Repository.ImportCircuits(circuit)
+	f.Repository.ImportCircuitsFromCsv(circuit)
 	return nil
 }
 
-func (f F1Service) ImportRaces(record []string) error {
+func (f F1Service) ImportRacesFromCsv(record []string) error {
 	raceID, err := strconv.Atoi(record[0])
 	if err != nil {
 		return err
@@ -120,6 +120,6 @@ func (f F1Service) ImportRaces(record []string) error {
 		SprintTime: record[12],
 	}
 
-	f.Repository.ImportRaces(race)
+	f.Repository.ImportRacesFromCsv(race)
 	return nil
 }

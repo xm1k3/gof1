@@ -27,15 +27,15 @@ func NewController(db *gorm.DB) Controller {
 }
 
 type F1Service interface {
-	ImportDrivers(record []string) error
-	ImportCircuits(record []string) error
-	ImportConstructors(record []string) error
-	ImportRaces(record []string) error
+	ImportDriversFromCsv(record []string) error
+	ImportCircuitsFromCsv(record []string) error
+	ImportConstructorsFromCsv(record []string) error
+	ImportRacesFromCsv(record []string) error
 }
 
 type F1Repository interface {
 	ImportDrives(driver models.Driver)
-	ImportCircuits(circuit models.Circuit)
-	ImportConstructors(constructor models.Constructor)
-	ImportRaces(race models.Race)
+	ImportCircuitsFromCsv(circuit models.Circuit)
+	ImportConstructorsFromCsv(constructor models.Constructor)
+	ImportRacesFromCsv(race models.Race)
 }

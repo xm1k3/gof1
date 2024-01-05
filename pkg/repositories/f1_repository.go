@@ -9,18 +9,18 @@ type F1Repository struct {
 	DB *gorm.DB
 }
 
-func (f F1Repository) ImportDrivers(driver models.Driver) {
+func (f F1Repository) ImportDriversFromCsv(driver models.Driver) {
 	f.DB.Create(&driver)
 }
 
-func (f F1Repository) ImportConstructors(constructor models.Constructor) {
+func (f F1Repository) ImportConstructorsFromCsv(constructor models.Constructor) {
 	f.DB.Create(&constructor)
 }
 
-func (f F1Repository) ImportCircuits(circuit models.Circuit) {
+func (f F1Repository) ImportCircuitsFromCsv(circuit models.Circuit) {
 	f.DB.Create(&circuit)
 }
 
-func (f F1Repository) ImportRaces(race models.Race) {
+func (f F1Repository) ImportRacesFromCsv(race models.Race) {
 	f.DB.Create(&race)
 }
