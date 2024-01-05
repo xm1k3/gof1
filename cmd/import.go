@@ -27,7 +27,7 @@ var importCmd = &cobra.Command{
 		}
 
 		newController := pkg.NewController(db)
-		newController.DB.AutoMigrate(&models.Driver{}, &models.Circuit{}, &models.Race{}, &models.Constructor{})
+		newController.DB.AutoMigrate(&models.Driver{}, &models.Circuit{}, &models.Race{}, &models.Constructor{}, &models.Result{})
 
 		err = importCSVData(newController.DB, "data/drivers.csv", newController.Service.ImportDriversFromCsv)
 		if err != nil {
@@ -42,6 +42,11 @@ var importCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 		err = importCSVData(db, "data/races.csv", newController.Service.ImportRacesFromCsv)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = importCSVData(db, "data/results.csv", newController.Service.ImportResultFromCsv)
 		if err != nil {
 			log.Fatal(err)
 		}
