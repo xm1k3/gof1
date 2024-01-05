@@ -13,11 +13,11 @@ import (
 	"github.com/xm1k3/gof1/pkg"
 )
 
-// driverCmd represents the driver command
-var driverCmd = &cobra.Command{
-	Use:   "driver",
-	Short: "driver command",
-	Long:  `driver command`,
+// constructorCmd represents the constructor command
+var constructorCmd = &cobra.Command{
+	Use:   "constructor",
+	Short: "constructor command",
+	Long:  `constructor command`,
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		yearFlag, _ := cmd.Flags().GetInt("year")
@@ -27,41 +27,41 @@ var driverCmd = &cobra.Command{
 		}
 
 		newController := pkg.NewController(db)
-		drivers, err := newController.Service.GetDriversByYear(yearFlag)
+		constructors, err := newController.Service.GetConstructorsByYear(yearFlag)
 		if err != nil {
 			log.Fatal(err)
 		}
-		for i, driver := range drivers {
-			fmt.Println(i+1, driver.Surname, driver.Forename)
+		for i, constructor := range constructors {
+			fmt.Println(i+1, constructor.Name)
 		}
 	},
 }
 
-var driverGetCmd = &cobra.Command{
+var constructorGetCmd = &cobra.Command{
 	Use:   "get",
-	Short: "driver get command",
-	Long:  `driver get command`,
+	Short: "constructor get command",
+	Long:  `constructor get command`,
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
-		driverIdFlag, _ := cmd.Flags().GetInt("id")
+		constructorIdFlag, _ := cmd.Flags().GetInt("id")
 		db, err := config.ConnectSqlite3(databaseFlag)
 		if err != nil {
 			log.Fatal(err)
 		}
 
 		newController := pkg.NewController(db)
-		driver, err := newController.Service.GetDriver(driverIdFlag)
+		constructor, err := newController.Service.GetDriver(constructorIdFlag)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("%+v\n", driver)
+		fmt.Printf("%+v\n", constructor)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(driverCmd)
-	driverCmd.AddCommand(driverGetCmd)
+	rootCmd.AddCommand(constructorCmd)
+	constructorCmd.AddCommand(constructorGetCmd)
 
-	driverCmd.Flags().IntP("year", "y", time.Now().Year(), "year")
-	driverGetCmd.Flags().IntP("id", "", 0, "driver ID")
+	constructorCmd.Flags().IntP("year", "y", time.Now().Year(), "year")
+	constructorGetCmd.Flags().IntP("id", "", 0, "constructor ID")
 }

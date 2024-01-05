@@ -34,6 +34,9 @@ type F1Service interface {
 	UpdateDriver(driver models.Driver) error
 	DeleteDriver(id int) error
 
+	GetConstructor(id int) (models.Constructor, error)
+	GetConstructorsByYear(year int) ([]models.Constructor, error)
+
 	ImportDriversFromCsv(record []string) error
 	ImportCircuitsFromCsv(record []string) error
 	ImportConstructorsFromCsv(record []string) error
@@ -54,7 +57,8 @@ type F1Repository interface {
 	UpdateResult(result models.Result) error
 	DeleteResult(id int) error
 
-	//GetConstructorsByYear(year int) ([]models.Constructor, error)
+	GetConstructor(id int) (models.Constructor, error)
+	GetConstructorsByYear(year int) ([]models.Constructor, error)
 
 	ImportDrives(driver models.Driver)
 	ImportCircuitsFromCsv(circuit models.Circuit)
