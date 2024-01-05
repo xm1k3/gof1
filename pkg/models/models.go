@@ -53,3 +53,25 @@ type Race struct {
 	SprintDate *time.Time `gorm:"column:sprint_date" csv:"sprint_date"`
 	SprintTime string     `gorm:"column:sprint_time" csv:"sprint_time"`
 }
+
+type Result struct {
+	gorm.Model
+	ResultID        int     `gorm:"column:id;primary_key" csv:"resultId"`
+	RaceID          int     `gorm:"column:raceId" csv:"raceId"`
+	DriverID        int     `gorm:"column:driverId" csv:"driverId"`
+	ConstructorID   int     `gorm:"column:constructorId" csv:"constructorId"`
+	Number          int     `gorm:"column:number" csv:"number"`
+	Grid            int     `gorm:"column:grid" csv:"grid"`
+	Position        int     `gorm:"column:position" csv:"position"`
+	PositionText    string  `gorm:"column:positionText" csv:"positionText"`
+	PositionOrder   int     `gorm:"column:positionOrder" csv:"positionOrder"`
+	Points          float64 `gorm:"column:points" csv:"points"`
+	Laps            int     `gorm:"column:laps" csv:"laps"`
+	Time            string  `gorm:"column:time" csv:"time"`
+	Milliseconds    int     `gorm:"column:milliseconds" csv:"milliseconds"`
+	FastestLap      int     `gorm:"column:fastestLap" csv:"fastestLap"`
+	Rank            int     `gorm:"column:rank" csv:"rank"`
+	FastestLapTime  string  `gorm:"column:fastestLapTime" csv:"fastestLapTime"`
+	FastestLapSpeed string  `gorm:"column:fastestLapSpeed" csv:"fastestLapSpeed"`
+	StatusID        int     `gorm:"column:statusId" csv:"statusId"`
+}

@@ -30,5 +30,5 @@ func Execute() {
 }
 
 func init() {
-	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.PersistentFlags().StringP("database", "D", "f1db.db", "database name")
 }
