@@ -13,7 +13,6 @@ import (
 	"github.com/xm1k3/gof1/pkg"
 )
 
-// driverCmd represents the driver command
 var driverCmd = &cobra.Command{
 	Use:   "driver",
 	Short: "driver command",

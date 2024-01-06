@@ -42,7 +42,7 @@ func setupRouter(router *gin.Engine, controller pkg.Controller) {
 	v1 := router.Group("v1")
 	v1.GET("/driver/:id", api.GetDriver(controller))
 	v1.GET("/drivers/", api.GetDrivers(controller))
-	v1.GET(":year/drivers/", api.GetDriversByYear(controller))
+	v1.GET("/drivers/year/:year", api.GetDriversByYear(controller))
 }
 
 func init() {

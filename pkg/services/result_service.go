@@ -6,6 +6,27 @@ import (
 	"github.com/xm1k3/gof1/pkg/models"
 )
 
+func (f F1Service) AddResult(result models.Result) error {
+	return f.Repository.AddResult(result)
+}
+
+func (f F1Service) GetResult(id int) (models.Result, error) {
+	return f.Repository.GetResult(id)
+}
+
+func (f F1Service) UpdateResult(result models.Result) error {
+	return f.Repository.UpdateResult(result)
+}
+
+func (f F1Service) DeleteResult(id int) error {
+	return f.Repository.DeleteResult(id)
+}
+
+func (f F1Service) GetAllResults(page int) ([]models.Result, error) {
+	const limit = 25
+	return f.Repository.GetAllResults(page, limit)
+}
+
 func (f F1Service) ImportResultFromCsv(record []string) error {
 	resultID, err := strconv.Atoi(record[0])
 	if err != nil {
