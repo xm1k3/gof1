@@ -19,6 +19,13 @@ type Driver struct {
 	URL         string    `gorm:"column:url" csv:"url"`
 }
 
+type DriverStanding struct {
+	DriverID int     `json:"driverId"`
+	Forename string  `json:"forename"`
+	Surname  string  `json:"surname"`
+	Points   float64 `json:"points"`
+}
+
 type Constructor struct {
 	gorm.Model
 	ConstructorID  int    `gorm:"column:id" gorm:"primary_key" csv:"constructorId"`

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"strconv"
 	"time"
 
@@ -21,6 +22,23 @@ func (f F1Service) GetDrivers(page, limit int) ([]models.Driver, error) {
 
 func (f F1Service) GetDriversByYear(year int) ([]models.Driver, error) {
 	return f.Repository.GetDriversByYear(year)
+}
+
+func (f F1Service) GetDriverStandingsByYear(year int) ([]models.DriverStanding, error) {
+	if year < 1950 || year > time.Now().Year() {
+		return nil, fmt.Errorf("year is out of valid range")
+	}
+
+	standings, err := f.Repository.GetDriverStandingsByYear(year)
+	if err != nil {
+		return nil, fmt.Errorf("error retrieving driver standings: %w", err)
+	}
+
+	if len(standings) == 0 {
+		return nil, fmt.Errorf("no driver standings found for year %d", year)
+	}
+
+	return standings, nil
 }
 
 func (f F1Service) UpdateDriver(driver models.Driver) error {

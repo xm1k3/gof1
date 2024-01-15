@@ -31,6 +31,22 @@ func (f F1Repository) GetDriversByYear(year int) ([]models.Driver, error) {
 	return drivers, err
 }
 
+func (r *F1Repository) GetDriverStandingsByYear(year int) ([]models.DriverStanding, error) {
+	var standings []models.DriverStanding
+
+	err := r.DB.
+		Table("results").
+		Select("drivers.id, drivers.forename, drivers.surname, SUM(results.points) as points").
+		Joins("JOIN drivers on drivers.id = results.driverId").
+		Joins("JOIN races on races.id = results.raceId").
+		Where("races.year = ?", year).
+		Group("drivers.id, drivers.forename, drivers.surname").
+		Order("SUM(results.points) DESC").
+		Scan(&standings).Error
+
+	return standings, err
+}
+
 func (f F1Repository) UpdateDriver(driver models.Driver) error {
 	result := f.DB.Save(&driver)
 	return result.Error

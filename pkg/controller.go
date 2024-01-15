@@ -31,6 +31,7 @@ type F1Service interface {
 	GetDriver(id int) (models.Driver, error)
 	GetDrivers(page, limit int) ([]models.Driver, error)
 	GetDriversByYear(year int) ([]models.Driver, error)
+	GetDriverStandingsByYear(year int) ([]models.DriverStanding, error)
 	UpdateDriver(driver models.Driver) error
 	DeleteDriver(id int) error
 	ImportDriversFromCsv(record []string) error
@@ -62,6 +63,7 @@ type F1Repository interface {
 	GetDriver(id int) (models.Driver, error)
 	GetDrivers(page int, limit int) ([]models.Driver, error)
 	GetDriversByYear(year int) ([]models.Driver, error)
+	GetDriverStandingsByYear(year int) ([]models.DriverStanding, error)
 	UpdateDriver(driver models.Driver) error
 	DeleteDriver(id int) error
 	ImportDriversFromCsv(race models.Driver)

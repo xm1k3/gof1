@@ -36,6 +36,29 @@ var driverCmd = &cobra.Command{
 	},
 }
 
+var driverStandingsCmd = &cobra.Command{
+	Use:   "standings",
+	Short: "driver standings command",
+	Long:  `driver standings command`,
+	Run: func(cmd *cobra.Command, args []string) {
+		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
+		yearFlag, _ := cmd.Flags().GetInt("year")
+		db, err := config.ConnectSqlite3(databaseFlag)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		newController := pkg.NewController(db)
+		drivers, err := newController.Service.GetDriverStandingsByYear(yearFlag)
+		if err != nil {
+			log.Fatal(err)
+		}
+		for i, driver := range drivers {
+			fmt.Println(i+1, driver.Surname, driver.Forename, driver.Points)
+		}
+	},
+}
+
 var driverGetCmd = &cobra.Command{
 	Use:   "get",
 	Short: "driver get command",
@@ -60,7 +83,10 @@ var driverGetCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(driverCmd)
 	driverCmd.AddCommand(driverGetCmd)
+	driverCmd.AddCommand(driverStandingsCmd)
 
 	driverCmd.Flags().IntP("year", "y", time.Now().Year(), "year")
 	driverGetCmd.Flags().IntP("id", "", 0, "driver ID")
+
+	driverStandingsCmd.Flags().IntP("year", "y", time.Now().Year(), "year")
 }
