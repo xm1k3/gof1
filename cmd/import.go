@@ -26,7 +26,11 @@ var importCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		newController := pkg.NewController(db)
+		opts := pkg.Options{
+			Database: "f1db.db",
+		}
+
+		newController := pkg.NewController(opts)
 		newController.DB.AutoMigrate(&models.Driver{}, &models.Circuit{}, &models.Race{}, &models.Constructor{}, &models.Result{})
 
 		err = importCSVData(newController.DB, "data/drivers.csv", newController.Service.ImportDriversFromCsv)

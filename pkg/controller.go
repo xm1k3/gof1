@@ -1,6 +1,9 @@
 package pkg
 
 import (
+	"log"
+
+	"github.com/xm1k3/gof1/config"
 	"github.com/xm1k3/gof1/pkg/models"
 	"github.com/xm1k3/gof1/pkg/repositories"
 	"github.com/xm1k3/gof1/pkg/services"
@@ -12,7 +15,15 @@ type Controller struct {
 	DB      *gorm.DB
 }
 
-func NewController(db *gorm.DB) Controller {
+type Options struct {
+	Database string
+}
+
+func NewController(opts Options) Controller {
+	db, err := config.ConnectSqlite3(opts.Database)
+	if err != nil {
+		log.Fatal(err)
+	}
 	repositories := repositories.F1Repository{
 		DB: db,
 	}

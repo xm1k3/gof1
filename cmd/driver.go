@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/xm1k3/gof1/config"
 	"github.com/xm1k3/gof1/pkg"
 )
 
@@ -20,12 +19,12 @@ var driverCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		yearFlag, _ := cmd.Flags().GetInt("year")
-		db, err := config.ConnectSqlite3(databaseFlag)
-		if err != nil {
-			log.Fatal(err)
+
+		opts := pkg.Options{
+			Database: databaseFlag,
 		}
 
-		newController := pkg.NewController(db)
+		newController := pkg.NewController(opts)
 		drivers, err := newController.Service.GetDriversByYear(yearFlag)
 		if err != nil {
 			log.Fatal(err)
@@ -43,12 +42,13 @@ var driverStandingsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		yearFlag, _ := cmd.Flags().GetInt("year")
-		db, err := config.ConnectSqlite3(databaseFlag)
-		if err != nil {
-			log.Fatal(err)
+
+		opts := pkg.Options{
+			Database: databaseFlag,
 		}
 
-		newController := pkg.NewController(db)
+		newController := pkg.NewController(opts)
+
 		drivers, err := newController.Service.GetDriverStandingsByYear(yearFlag)
 		if err != nil {
 			log.Fatal(err)
@@ -66,12 +66,12 @@ var driverGetCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		driverIdFlag, _ := cmd.Flags().GetInt("id")
-		db, err := config.ConnectSqlite3(databaseFlag)
-		if err != nil {
-			log.Fatal(err)
+
+		opts := pkg.Options{
+			Database: databaseFlag,
 		}
 
-		newController := pkg.NewController(db)
+		newController := pkg.NewController(opts)
 		driver, err := newController.Service.GetDriver(driverIdFlag)
 		if err != nil {
 			log.Fatal(err)

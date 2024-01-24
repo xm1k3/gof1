@@ -19,6 +19,22 @@ func (f F1Repository) GetConstructorsByYear(year int) ([]models.Constructor, err
 	return constructors, err
 }
 
+func (f F1Repository) GetConstructorsStandingsByYear(year int) ([]models.ConstructorStanding, error) {
+	var standings []models.ConstructorStanding
+
+	err := f.DB.
+		Table("results").
+		Select("constructors.id, constructors.name, SUM(results.points) as points").
+		Joins("JOIN constructors on constructors.id = results.constructorId").
+		Joins("JOIN races on races.id = results.raceId").
+		Where("races.year = ?", year).
+		Group("constructors.id, constructors.name").
+		Order("SUM(results.points) DESC").
+		Scan(&standings).Error
+
+	return standings, err
+}
+
 func (f F1Repository) ImportConstructorsFromCsv(constructor models.Constructor) {
 	f.DB.Create(&constructor)
 }

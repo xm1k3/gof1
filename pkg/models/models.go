@@ -35,6 +35,12 @@ type Constructor struct {
 	URL            string `gorm:"column:url" csv:"url"`
 }
 
+type ConstructorStanding struct {
+	ConstructorID int     `json:"constructorId"`
+	Name          string  `json:"name"`
+	Points        float64 `json:"points"`
+}
+
 type Circuit struct {
 	gorm.Model
 	CircuitID  int    `gorm:"column:id" gorm:"primary_key" csv:"circuitId"`

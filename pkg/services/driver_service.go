@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"time"
@@ -9,6 +10,14 @@ import (
 )
 
 func (f F1Service) AddDriver(driver models.Driver) error {
+	if driver.DriverRef == "" || driver.Forename == "" || driver.Surname == "" || driver.Nationality == "" {
+		return errors.New("missing required driver information")
+	}
+
+	if !driver.DOB.IsZero() && driver.DOB.After(time.Now()) {
+		return errors.New("driver's date of birth cannot be in the future")
+	}
+
 	return f.Repository.AddDriver(driver)
 }
 

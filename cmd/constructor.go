@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/xm1k3/gof1/config"
 	"github.com/xm1k3/gof1/pkg"
 )
 
@@ -21,12 +20,13 @@ var constructorCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		yearFlag, _ := cmd.Flags().GetInt("year")
-		db, err := config.ConnectSqlite3(databaseFlag)
-		if err != nil {
-			log.Fatal(err)
+
+		opts := pkg.Options{
+			Database: databaseFlag,
 		}
 
-		newController := pkg.NewController(db)
+		newController := pkg.NewController(opts)
+
 		constructors, err := newController.Service.GetConstructorsByYear(yearFlag)
 		if err != nil {
 			log.Fatal(err)
@@ -44,12 +44,12 @@ var constructorGetCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		databaseFlag, _ := rootCmd.PersistentFlags().GetString("database")
 		constructorIdFlag, _ := cmd.Flags().GetInt("id")
-		db, err := config.ConnectSqlite3(databaseFlag)
-		if err != nil {
-			log.Fatal(err)
+
+		opts := pkg.Options{
+			Database: databaseFlag,
 		}
 
-		newController := pkg.NewController(db)
+		newController := pkg.NewController(opts)
 		constructor, err := newController.Service.GetDriver(constructorIdFlag)
 		if err != nil {
 			log.Fatal(err)

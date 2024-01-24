@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/xm1k3/gof1/pkg"
+	"github.com/xm1k3/gof1/pkg/models"
 )
 
 func GetDriver(controller pkg.Controller) gin.HandlerFunc {
@@ -56,11 +57,28 @@ func GetDriversByYear(controller pkg.Controller) gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid year param"})
 			return
 		}
-		driver, err := controller.Service.GetConstructorsByYear(driverID)
+		driver, err := controller.Service.GetDriversByYear(driverID)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 		c.JSON(http.StatusOK, driver)
+	}
+}
+
+func AddDriver(controller pkg.Controller) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var newDriver models.Driver
+		if err := c.ShouldBindJSON(&newDriver); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		if err := controller.Service.AddDriver(newDriver); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusCreated, gin.H{"message": "Driver added successfully"})
 	}
 }
