@@ -20,7 +20,7 @@ type Driver struct {
 }
 
 type DriverStanding struct {
-	DriverID int     `json:"driverId"`
+	// DriverID int     `json:"driverId"`
 	Forename string  `json:"forename"`
 	Surname  string  `json:"surname"`
 	Points   float64 `json:"points"`

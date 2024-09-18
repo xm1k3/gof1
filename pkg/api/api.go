@@ -9,6 +9,32 @@ import (
 	"github.com/xm1k3/gof1/pkg/models"
 )
 
+// BasicAuth middleware
+// Username: admin, Password: password
+func BasicAuth() gin.HandlerFunc {
+	return gin.BasicAuth(gin.Accounts{
+		"admin": "password",
+	})
+}
+
+func SetupRouter(router *gin.Engine, controller pkg.Controller) {
+	v1 := router.Group("/v1")
+	{
+		v1.GET("/driver/:id", GetDriver(controller))
+		v1.GET("/drivers/", GetDrivers(controller))
+		v1.GET("/drivers/year/:year", GetDriversByYear(controller))
+		v1.GET("/drivers/standings/:year", GetDriverStandingsByYear(controller))
+	}
+
+	v1Auth := router.Group("/v1")
+	{
+		v1Auth.Use(BasicAuth())
+		{
+			v1Auth.POST("/drivers", AddDriver(controller))
+		}
+	}
+}
+
 func GetDriver(controller pkg.Controller) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		driverIDStr := c.Param("id")
@@ -63,6 +89,23 @@ func GetDriversByYear(controller pkg.Controller) gin.HandlerFunc {
 			return
 		}
 		c.JSON(http.StatusOK, driver)
+	}
+}
+
+func GetDriverStandingsByYear(controller pkg.Controller) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		driverIDStr := c.Param("year")
+		driverID, err := strconv.Atoi(driverIDStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid year param"})
+			return
+		}
+		driverStanding, err := controller.Service.GetDriverStandingsByYear(driverID)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, driverStanding)
 	}
 }
 

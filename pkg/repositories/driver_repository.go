@@ -1,6 +1,8 @@
 package repositories
 
-import "github.com/xm1k3/gof1/pkg/models"
+import (
+	"github.com/xm1k3/gof1/pkg/models"
+)
 
 func (f F1Repository) AddDriver(driver models.Driver) error {
 	result := f.DB.Create(&driver)
@@ -31,7 +33,7 @@ func (f F1Repository) GetDriversByYear(year int) ([]models.Driver, error) {
 	return drivers, err
 }
 
-func (r *F1Repository) GetDriverStandingsByYear(year int) ([]models.DriverStanding, error) {
+func (r F1Repository) GetDriverStandingsByYear(year int) ([]models.DriverStanding, error) {
 	var standings []models.DriverStanding
 
 	err := r.DB.

@@ -30,7 +30,20 @@ func (f F1Service) GetDrivers(page, limit int) ([]models.Driver, error) {
 }
 
 func (f F1Service) GetDriversByYear(year int) ([]models.Driver, error) {
-	return f.Repository.GetDriversByYear(year)
+	if year < 1950 || year > time.Now().Year() {
+		return nil, fmt.Errorf("year is out of valid range")
+	}
+
+	drivers, err := f.Repository.GetDriversByYear(year)
+	if err != nil {
+		return nil, fmt.Errorf("error retrieving driver standings: %w", err)
+	}
+
+	if len(drivers) == 0 {
+		return nil, fmt.Errorf("no drivers found for year %d", year)
+	}
+
+	return drivers, nil
 }
 
 func (f F1Service) GetDriverStandingsByYear(year int) ([]models.DriverStanding, error) {

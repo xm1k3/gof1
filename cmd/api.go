@@ -28,35 +28,10 @@ var apiCmd = &cobra.Command{
 		newController := pkg.NewController(opts)
 
 		router := gin.New()
-		setupRouter(router, newController)
+		api.SetupRouter(router, newController)
 
 		router.Run(":" + port)
 	},
-}
-
-// BasicAuth middleware
-// Username: admin, Password: password
-func BasicAuth() gin.HandlerFunc {
-	return gin.BasicAuth(gin.Accounts{
-		"admin": "password",
-	})
-}
-
-func setupRouter(router *gin.Engine, controller pkg.Controller) {
-	v1 := router.Group("/v1")
-	{
-		v1.GET("/driver/:id", api.GetDriver(controller))
-		v1.GET("/drivers/", api.GetDrivers(controller))
-		v1.GET("/drivers/year/:year", api.GetDriversByYear(controller))
-	}
-
-	v1Auth := router.Group("/v1")
-	{
-		v1Auth.Use(BasicAuth())
-		{
-			v1Auth.POST("/drivers", api.AddDriver(controller))
-		}
-	}
 }
 
 func init() {
